@@ -90,7 +90,6 @@ const searchNote = async (title, userID) => {
       return foundNote;
     }
   } catch (error) {
-    console.error("Search error:", error);
     throw error;
   }
 };
