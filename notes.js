@@ -1,21 +1,29 @@
 const {Router} = require("express");
 const verifyToken = require("./Middleware/authMiddleware");
-const {getNotes, createNote, changeNote} = require("./Functions/noteFunctions");
+const {
+  getNotes,
+  createNote,
+  changeNote,
+  deleteNote,
+} = require("./Functions/noteFunctions");
 const notes = Router();
 
 notes.get("/notes", verifyToken, async (req, res) => {
+  const userID = req.user.id;
+  console.log(userID);
   try {
-    const notes = await getNotes();
+    const notes = await getNotes(userID);
     res.status(200).json({currentNotes: notes});
   } catch (error) {
     res.status(500).json({message: "Internal server error"});
   }
 });
 
-notes.post("/notes/add", verifyToken, async (req, res) => {
+notes.post("/notes", verifyToken, async (req, res) => {
   const {title, text} = req.body;
+  const userID = req.user.id;
   try {
-    const newNote = await createNote(title, text);
+    const newNote = await createNote(title, text, userID);
     res.status(201).json({message: "Note added successfully!", added: newNote});
   } catch (error) {
     if (error.message.includes("should not exceed")) {
@@ -31,8 +39,9 @@ notes.post("/notes/add", verifyToken, async (req, res) => {
 notes.put("/notes/:id", verifyToken, async (req, res) => {
   const id = req.params.id;
   const {title, text} = req.body;
+  const userID = req.user.id;
   try {
-    const updatedNote = await changeNote(id, title, text);
+    const updatedNote = await changeNote(id, title, text, userID);
     if (updatedNote === 0) {
       res.status(404).json({message: `No note with ${id} found.`});
     } else if (updatedNote === "No changes made") {
@@ -52,8 +61,22 @@ notes.put("/notes/:id", verifyToken, async (req, res) => {
   }
 });
 
-notes.delete("/notes", verifyToken, (req, res) => {
-  // Logik för att ta bort en anteckning
+notes.delete("/notes/:id", verifyToken, async (req, res) => {
+  const id = req.params.id;
+  const userID = req.user.id;
+  try {
+    const result = await deleteNote(id, userID);
+    if (result.deletedCount === 0) {
+      res.status(404).json({message: `No note found with ID: ${id}.`});
+    } else {
+      res
+        .status(200)
+        .json({message: "Note successfully deleted.", deletedNoteID: id});
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: "Internal server error"});
+  }
 });
 
 module.exports = notes;
