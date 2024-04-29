@@ -5,6 +5,7 @@ const {
   createNote,
   changeNote,
   deleteNote,
+  searchNote,
 } = require("./Functions/noteFunctions");
 const notes = Router();
 
@@ -74,8 +75,25 @@ notes.delete("/notes/:id", verifyToken, async (req, res) => {
         .json({message: "Note successfully deleted.", deletedNoteID: id});
     }
   } catch (error) {
-    console.error(error);
     res.status(500).json({message: "Internal server error"});
+  }
+});
+
+notes.get("/notes/search", verifyToken, async (req, res) => {
+  const title = req.query.title;
+  const userID = req.user.id;
+
+  try {
+    const foundNote = await searchNote(title, userID);
+    res.status(200).json(foundNote);
+  } catch (error) {
+    if (error.message.includes("No note found")) {
+      res.status(404).json({message: error.message});
+    } else if (error.message.includes("Title is required")) {
+      res.status(400).json({message: error.message});
+    } else {
+      res.status(500).json({message: "Internal server error"});
+    }
   }
 });
 

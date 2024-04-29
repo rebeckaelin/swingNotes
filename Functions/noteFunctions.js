@@ -77,4 +77,22 @@ const deleteNote = async (id, userID) => {
   return {deletedCount: numRemoved};
 };
 
-module.exports = {getNotes, createNote, changeNote, deleteNote};
+const searchNote = async (title, userID) => {
+  if (!title || title.trim() === "") {
+    throw new Error("Title is required for searching notes.");
+  }
+  const searchTitle = title.trim();
+  try {
+    const foundNote = await db.find({title: searchTitle, user: userID});
+    if (foundNote.length == 0) {
+      throw new Error("No note found, try again!");
+    } else {
+      return foundNote;
+    }
+  } catch (error) {
+    console.error("Search error:", error);
+    throw error;
+  }
+};
+
+module.exports = {getNotes, createNote, changeNote, deleteNote, searchNote};
