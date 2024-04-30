@@ -1,5 +1,4 @@
 const {Router} = require("express");
-const verifyToken = require("./Middleware/authMiddleware");
 const {
   getNotes,
   createNote,
