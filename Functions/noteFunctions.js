@@ -1,5 +1,4 @@
 const nedb = require("nedb-promise");
-
 const db = new nedb({filename: "Database/notes.db", autoload: true});
 
 const getNotes = (userID) => {

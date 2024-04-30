@@ -11,7 +11,6 @@ const notes = Router();
 
 notes.get("/notes", verifyToken, async (req, res) => {
   const userID = req.user.id;
-  console.log(userID);
   try {
     const notes = await getNotes(userID);
     res.status(200).json({currentNotes: notes});

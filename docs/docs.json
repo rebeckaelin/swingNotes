@@ -16,30 +16,24 @@
         "type": "object",
         "properties": {
           "_id": {
-            "type": "string",
-            "description": "Note ID"
+            "type": "string"
           },
           "title": {
-            "type": "string",
-            "description": "Note title"
+            "type": "string"
           },
           "text": {
-            "type": "string",
-            "description": "Note content"
+            "type": "string"
           },
           "createdAt": {
             "type": "string",
-            "format": "date-time",
-            "description": "Date and time when note was created"
+            "format": "date-time"
           },
           "modifiedAt": {
             "type": "string",
-            "format": "date-time",
-            "description": "Date and time when note was modified"
+            "format": "date-time"
           },
           "user": {
-            "type": "string",
-            "description": "User ID associated with the note"
+            "type": "string"
           }
         }
       },
@@ -47,12 +41,10 @@
         "type": "object",
         "properties": {
           "username": {
-            "type": "string",
-            "description": "Username of the user"
+            "type": "string"
           },
           "password": {
-            "type": "string",
-            "description": "Password of the user"
+            "type": "string"
           }
         },
         "required": ["username", "password"]
@@ -361,77 +353,6 @@
             }
           }
         }
-      },
-      "delete": {
-        "summary": "Delete a note",
-        "description": "Delete an existing note for the authenticated user",
-        "tags": ["Notes"],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of the note to delete. Provide this ID in the URL.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Note deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "deletedNoteID": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/api/notes/{id}": {
@@ -499,6 +420,77 @@
                   "type": "object",
                   "properties": {
                     "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a note",
+        "description": "Delete an existing note for the authenticated user",
+        "tags": ["Notes"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the note to delete. Provide this ID in the URL.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Note deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "deletedNoteID": {
                       "type": "string"
                     }
                   }
