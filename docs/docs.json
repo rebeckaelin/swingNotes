@@ -270,6 +270,11 @@
         "summary": "Create a new note",
         "description": "Create a new note for the authenticated user",
         "tags": ["Notes"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-router-controller": "notes",
         "x-swagger-router-controller": "notes",
         "requestBody": {
@@ -361,6 +366,11 @@
         "summary": "Delete a note",
         "description": "Delete an existing note for the authenticated user",
         "tags": ["Notes"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -429,6 +439,11 @@
         "summary": "Update a note",
         "description": "Update an existing note for the authenticated user",
         "tags": ["Notes"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -529,6 +544,11 @@
         "summary": "Search notes by title",
         "description": "Search for notes by their titles for the authenticated user",
         "tags": ["Notes"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "title",
