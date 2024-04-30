@@ -9,7 +9,7 @@ const {
 } = require("./Functions/noteFunctions");
 const notes = Router();
 
-notes.get("/notes", verifyToken, async (req, res) => {
+notes.get("/notes", async (req, res) => {
   const userID = req.user.id;
   try {
     const notes = await getNotes(userID);
@@ -19,7 +19,7 @@ notes.get("/notes", verifyToken, async (req, res) => {
   }
 });
 
-notes.post("/notes", verifyToken, async (req, res) => {
+notes.post("/notes", async (req, res) => {
   const {title, text} = req.body;
   const userID = req.user.id;
   try {
@@ -36,7 +36,7 @@ notes.post("/notes", verifyToken, async (req, res) => {
   }
 });
 
-notes.put("/notes/:id", verifyToken, async (req, res) => {
+notes.put("/notes/:id", async (req, res) => {
   const id = req.params.id;
   const {title, text} = req.body;
   const userID = req.user.id;
@@ -47,7 +47,9 @@ notes.put("/notes/:id", verifyToken, async (req, res) => {
     } else if (updatedNote === "No changes made") {
       res.status(200).json({message: "No changes were necessary."});
     } else {
-      res.status(200).json({message: "Note updated successfully!"});
+      res
+        .status(200)
+        .json({message: "Note updated successfully!", updatedNote: id});
     }
   } catch (error) {
     if (
@@ -61,7 +63,7 @@ notes.put("/notes/:id", verifyToken, async (req, res) => {
   }
 });
 
-notes.delete("/notes/:id", verifyToken, async (req, res) => {
+notes.delete("/notes/:id", async (req, res) => {
   const id = req.params.id;
   const userID = req.user.id;
   try {
@@ -78,7 +80,7 @@ notes.delete("/notes/:id", verifyToken, async (req, res) => {
   }
 });
 
-notes.get("/notes/search", verifyToken, async (req, res) => {
+notes.get("/notes/search", async (req, res) => {
   const title = req.query.title;
   const userID = req.user.id;
 

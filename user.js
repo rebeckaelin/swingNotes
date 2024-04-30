@@ -29,8 +29,6 @@ user.post("/user/signup", async (req, res) => {
       userID: uuidv4(),
     };
 
-    console.log(user);
-
     await db.addUser(user);
     res.status(200).json({message: "User has been successfully created!"});
   } catch (error) {
